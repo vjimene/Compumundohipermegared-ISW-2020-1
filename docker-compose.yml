@@ -2,15 +2,19 @@
 version: '3'
 
 services:
-  db:
-    build:
-      context: .
-      dockerfile: Dockerfile
+  app:
+    container_name: chopinhauer-springboot-postgresql
+    image: app-springboot-postgresql
+    build: ./
     ports:
-      - 5432:5432
+      - "5000:5000"
+    depends_on:
+      - db
+  db:
+    image: postgres
+    ports:
+      - "5432:5432"
     environment:
-      #- POSTGRES_USER=postgres
+      - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
       - POSTGRES_DB=chopinhauer_db
-    volumes:
-      - ./var/lib/postgresql/data

@@ -13,7 +13,10 @@ Repositorio del equipo Compumundo hipermegared ISW 2020-1
 
 <a name="ejecutar"></a>
 ## 2. Ejecución
+### Compilar proyecto
+- ```mvn package -DskipTests```
+
 ### Iniciar docker
 - Iniciar docker : ```docker-compose up -d```
-- Ingresar a postgres : ```docker-compose exec db psql -U postgres -d chopinhauer_db ```
+<!--- Ingresar a postgres : ```docker-compose exec db psql -U postgres -d chopinhauer_db ```$-->
 
