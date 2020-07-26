@@ -6,12 +6,12 @@ import java.util.Optional;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
-import proyecto.Entidad.PServicio;
+import proyecto.Entidad.Equipo;
 
 @Repository
-public interface PServicioRepositorio extends CrudRepository<PServicio,Long>{
+public interface EquipoRepositorio extends CrudRepository<Equipo,Long>{
 	
-	public Optional<PServicio> findById(Integer id);
+	public Optional<Equipo> findById(Integer id);
 	
 	public void  deleteById(Integer id);
 	//public List<Usuario> findAlByRol(String rol);
