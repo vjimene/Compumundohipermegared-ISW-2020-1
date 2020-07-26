@@ -8,7 +8,7 @@ import org.hibernate.annotations.GenericGenerator;
 
 //import org.hibernate.annotations.GenericGenerator;
 
-@Table(name="usuario")
+@Table(name="PService")
 @Entity
 public class PServicio implements Serializable {
     @Id
@@ -16,7 +16,7 @@ public class PServicio implements Serializable {
 
     private Integer id;
     private String nombres, apellidos;
-    Integer RUN;
+    private Integer RUN;
     private String profesion;
     private Integer telefono;
     private String email;

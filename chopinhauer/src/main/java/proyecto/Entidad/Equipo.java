@@ -11,41 +11,41 @@ import proyecto.Entidad.Equipo;
 
 //import org.hibernate.annotations.GenericGenerator;
 
-@Table(name="usuario")
+@Table(name="team")
 @Entity
 public class Equipo implements Serializable {
     @Id
     @GeneratedValue(strategy=GenerationType.AUTO)
 
-    private Integer idEquipo;
+    private Integer id;
     private String tag;
     @OneToMany()
-	private Set<PServicio> personalEquipo;
+	private Set<PServicio> pserviceteam;
     
     
     //getters
     public Set<PServicio> getPersonalEquipo() {
-		return personalEquipo;
+		return pserviceteam;
 	}
     public String getTag() {
 		return tag;
 	}
-	public Integer getIdEquipo() {
-		return idEquipo;
+	public Integer getId() {
+		return id;
 	}
 	
 	//setter
 	
 	
-	public void setIdEquipo(Integer idEquipo) {
-		this.idEquipo = idEquipo;
+	public void setId(Integer id) {
+		this.id = id;
 	}
 	
 	public void setTag(String tag) {
 		this.tag = tag;
 	}
 	public void setPersonalEquipo(Set<PServicio> personalEquipo) {
-		this.personalEquipo = personalEquipo;
+		this.pserviceteam = personalEquipo;
 	}
 	
 	
