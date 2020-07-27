@@ -1,6 +1,7 @@
 package proyecto.Entidad;
 
 import java.io.Serializable;
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.*;
@@ -16,15 +17,14 @@ import proyecto.Entidad.Equipo;
 public class Equipo implements Serializable {
     @Id
     @GeneratedValue(strategy=GenerationType.AUTO)
-
     private Integer id;
     private String tag;
     @OneToMany()
-	private Set<PServicio> pserviceteam;
+	private List<PServicio> pserviceteam;
     
     
     //getters
-    public Set<PServicio> getPersonalEquipo() {
+    public List<PServicio> getPersonalEquipo() {
 		return pserviceteam;
 	}
     public String getTag() {
@@ -44,15 +44,15 @@ public class Equipo implements Serializable {
 	public void setTag(String tag) {
 		this.tag = tag;
 	}
-	public void setPersonalEquipo(Set<PServicio> personalEquipo) {
+	public void setPersonalEquipo(List<PServicio> personalEquipo) {
 		this.pserviceteam = personalEquipo;
 	}
 	
 	
-	String noasignado;
-    String quimio;
-    String pabellon;
-    String recuperacion;
+	//String noasignado;
+    //String quimio;
+	//String pabellon;
+    //String recuperacion;
     
     
 }

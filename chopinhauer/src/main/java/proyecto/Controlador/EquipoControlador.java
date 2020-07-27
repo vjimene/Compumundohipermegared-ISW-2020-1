@@ -1,5 +1,7 @@
 package proyecto.Controlador;
 
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -30,6 +32,8 @@ public class EquipoControlador {
 	
 	@Autowired
 	EquipoRepositorio repo;
+	
+	@Autowired
 	PServicioRepositorio srepo;
 	
 	//obtener todos los equipos 
@@ -43,33 +47,74 @@ public class EquipoControlador {
 	public Equipo getByIdEquipo(@RequestParam(name="id") Integer id) throws Exception {
 		Optional<Equipo> equipofound = repo.findById(id);
 		if (!equipofound.isPresent()) {
-			throw new Exception("Equipo no encontrado");
+			throw new Exception("Equipo no encontrado \n");
 		}else {
 			return equipofound.get();
 		}
 	}
-	
-	//actualizar Equipo
 	@ResponseStatus(HttpStatus.OK)
-	@PostMapping("/update")
-	public Integer updatePServicio(@RequestBody Equipo equipoupdate) throws Exception {
-		
-		Optional<Equipo> newEquipo =  repo.findById(equipoupdate.getId());
+	@PostMapping("/addToTeam")
+	public String addToTeam(@RequestParam(name="id") Integer id, @RequestParam(name="idlist") String[] idList) throws Exception {
+		Optional<Equipo> newEquipo =  repo.findById(id);
 		
 		if (!newEquipo.isPresent()) {
-			throw new Exception("Equipo no encontrado");
-		}else {
-			
+			throw new Exception("Equipo no encontrado \n");
+		} else {
 			Equipo Equipofound = newEquipo.get();
-			Equipofound.setTag(equipoupdate.getTag());
-			Equipofound.setPersonalEquipo(equipoupdate.getPersonalEquipo());
 			
+		 	//List<PServicio> newGrupo = new ArrayList<PServicio>();
+			List<PServicio> newGrupo = Equipofound.getPersonalEquipo();
+		    for(int i=0; i< idList.length; i++) {
+		    	Integer idItem = Integer.parseInt(idList[i]);
+		    	Optional<PServicio> personalfound = srepo.findById(idItem);
+				if (!personalfound.isPresent()) {
+					throw new Exception("Personal no encontrado \n");
+				}else {
+					newGrupo.add(personalfound.get());
+				}    	
+		    }
+		    Equipofound.setPersonalEquipo(newGrupo);
 			repo.save(Equipofound);
-			
-			return null;
+			return "Updated";
 		}
 	}
+	
+	@ResponseStatus(HttpStatus.OK)
+	@PostMapping("/deleteToTeam")
+	public String deleteToTeam(@RequestParam(name="id") Integer id, @RequestParam(name="idlist") String[] idList) throws Exception {
+		Optional<Equipo> newEquipo =  repo.findById(id);
 		
+		if (!newEquipo.isPresent()) {
+			throw new Exception("Equipo no encontrado \n");
+		} else {
+			
+			Equipo Equipofound = newEquipo.get();
+			List<PServicio> newGrupo = Equipofound.getPersonalEquipo();
+		 	
+			
+		    for(int i=0; i< idList.length; i++) {
+		    	Integer idItem = Integer.parseInt(idList[i]);
+		    	Optional<PServicio> personalfound = srepo.findById(idItem);
+				if (!personalfound.isPresent()) {
+					throw new Exception("Personal no encontrado \n");
+				}else {
+					//newGrupo.add(personalfound.get());
+					//newGrupo.remo
+					PServicio pServiceItem = personalfound.get();
+					if(newGrupo.contains(pServiceItem)) {
+						newGrupo.remove(pServiceItem);						
+					}
+					
+				}    	
+		    }
+		    
+		    Equipofound.setPersonalEquipo(newGrupo);
+			repo.save(Equipofound);
+			return "Deleted";
+		}
+	}
+	
+			
 	//eliminar equipo
 	@PostMapping("/delete")
 	@ResponseStatus(HttpStatus.OK)
@@ -77,8 +122,9 @@ public class EquipoControlador {
 		Optional<Equipo> newEquipo =  repo.findById(id);
 		
 		if (!newEquipo.isPresent()) {
-			throw new Exception("Equipo no encontrado");
+			throw new Exception("Equipo no encontrado \n");
 		} else {
+			//repo.deleteById(id);
 			//repo.deleteById(id);
 			repo.deleteById(id);
 			return null;
@@ -88,19 +134,20 @@ public class EquipoControlador {
 	//agregar equipo	
 	@PostMapping("/add") 
 	public @ResponseBody String addNewEquipo (@RequestParam(name="tag") String Tag,
-			@RequestParam(name="idlist") Long[]  idList) throws Exception {
+			@RequestParam(name="idlist") String[]  idList) throws Exception {
 	    // @ResponseBody means the returned String is the response, not a view name
 	    // @RequestParam means it is a parameter from the GET or POST request
 
 	    Equipo newEquipo = new Equipo();
 	    newEquipo.setTag(Tag);
 	    
-	 	Set<PServicio> newGrupo = null;
+	 	List<PServicio> newGrupo = new ArrayList<PServicio>();
 	 	
 	    for(int i=0; i< idList.length; i++) {
-	    	Optional<PServicio> personalfound = srepo.findById(idList[i]);;
+	    	Integer id = Integer.parseInt(idList[i]);
+	    	Optional<PServicio> personalfound = srepo.findById(id);
 			if (!personalfound.isPresent()) {
-				throw new Exception("Personal no encontrado");
+				throw new Exception("Personal no encontrado \n");
 			}else {
 				newGrupo.add(personalfound.get());
 			}    	

@@ -1,10 +1,14 @@
 package proyecto.Controlador;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,6 +19,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 import proyecto.Entidad.PServicio;
 
@@ -30,12 +36,25 @@ public class PServicioControlador {
 	PServicioRepositorio repo;
 	
 	@GetMapping("/all")
-	public PServicio getAllPServicio() {
-		return (PServicio) repo.findAll();
+	public ResponseEntity getAllPServicio() {
+		Iterable<PServicio> allPServicio = repo.findAll();
+		
+		List<PServicio> lista = new ArrayList<PServicio>(); 
+		allPServicio.iterator().forEachRemaining(lista::add);
+		if(lista.isEmpty()) {
+			//return Collections.emptyList();
+			return new ResponseEntity(new EmptyJsonResponse(), HttpStatus.NOT_FOUND);
+		} else {
+			return new ResponseEntity(lista, HttpStatus.OK);
+			//return lista;
+		}
+		
 	}
 	
-	@GetMapping("/byid")
+	@GetMapping("/byid") 
 	public PServicio getByIdPServicio(Integer id) throws Exception {
+		System.out.print("HOLAAAA \n");
+		System.out.print(id);
 		Optional<PServicio> pserviciofound = repo.findById(id);
 		if (!pserviciofound.isPresent()) {
 			throw new Exception("Personal no encontrado");
@@ -45,24 +64,30 @@ public class PServicioControlador {
 		
 	}
 	
-	//actualizar personal
+	//funca mas o menos lindo
 	@ResponseStatus(HttpStatus.OK)
 	@PostMapping("/update")
-	public Integer updatePServicio(PServicio pservicioupdate ) throws Exception {
+	public Integer updatePServicio(@RequestParam(name="id") Integer id,
+			@RequestParam(name="nombre") String nombre, 
+		    @RequestParam(name="apellido") String apellido,
+		    @RequestParam(name="run") Integer run,
+		    @RequestParam(name="profesion") String profesion,
+		    @RequestParam(name="telefono") Integer telefono, 
+		    @RequestParam(name="email") String email) throws Exception {
 		
-		Optional<PServicio> newPServicio =  repo.findById(pservicioupdate.getId());
+		Optional<PServicio> newPServicio =  repo.findById(id);
 		
 		if (!newPServicio.isPresent()) {
-			throw new Exception("Cosa no encontrado");
+			throw new Exception("Personal no encontrado");
 		}else {
 			
 			PServicio PServiciofound = newPServicio.get();
-			PServiciofound.setNombres(pservicioupdate.getNombres());
-			PServiciofound.setApellidos( pservicioupdate.getApellidos() );
-			PServiciofound.setEmail(pservicioupdate.getEmail());
-			PServiciofound.setProfesion(pservicioupdate.getProfesion());
-			PServiciofound.setRUN(pservicioupdate.getRUN());
-			PServiciofound.setTelefono(pservicioupdate.getTelefono());
+			PServiciofound.setNombres(nombre);
+			PServiciofound.setApellidos(apellido );
+			PServiciofound.setRUN(run);
+			PServiciofound.setProfesion(profesion);
+			PServiciofound.setTelefono(telefono);
+			PServiciofound.setEmail(email);
 			
 			//if(checkUserValid(user)) {
 			//	user = repositorio.save(user);
@@ -74,14 +99,15 @@ public class PServicioControlador {
 		}
 	}
 	
+	//funca mas o menos lindo
 	@ResponseStatus(HttpStatus.OK)
 	@PostMapping(path="/add") // Map ONLY POST Requests
-	  public @ResponseBody PServicio addPServicio(@RequestParam String nombre, 
-	      @RequestParam String apellido,
-	      @RequestParam Integer run,
-	      @RequestParam String profesion,
-	      @RequestParam Integer telefono, 
-	      @RequestParam String email) {
+	  public @ResponseBody PServicio addPServicio(@RequestParam(name="nombre") String nombre, 
+	      @RequestParam(name="apellido") String apellido,
+	      @RequestParam(name="run") Integer run,
+	      @RequestParam(name="profesion") String profesion,
+	      @RequestParam(name="telefono") Integer telefono, 
+	      @RequestParam(name="email") String email) {
 		
 		PServicio newPServicio = new PServicio();
 		newPServicio.setNombres(nombre);
@@ -96,8 +122,6 @@ public class PServicioControlador {
 	  }
 	
 	
-	//nombre=Juanito&apellido=JuanJarry&run=123123123&profesion=Directortecnico31min&telefono=666&email=juan@email.com
-	
 	@PostMapping("/delete")
 	public Integer deletePServicio(Integer id) throws Exception {
 		Optional<PServicio> newPServicio =  repo.findById(id);
@@ -110,21 +134,9 @@ public class PServicioControlador {
 		}
 	}
 	
-	@PostMapping("/deleteall")
-	public Integer deleteAllPServicio(Integer id) throws Exception {
-		Optional<PServicio> newPServicio =  repo.findById(id);
-		
-		if (!newPServicio.isPresent()) {
-			throw new Exception("Personal no encontrado");
-		} else {
-			repo.deleteById(id);
-			return null;
-		}
-	}
-	
-	
 	
 
-	
+	@JsonSerialize
+	public class EmptyJsonResponse { }
 	
 }

@@ -9,7 +9,7 @@ import org.springframework.stereotype.Repository;
 import proyecto.Entidad.Equipo;
 
 @Repository
-public interface EquipoRepositorio extends CrudRepository<Equipo,Long>{
+public interface EquipoRepositorio extends CrudRepository<Equipo,Integer>{
 	
 	public Optional<Equipo> findById(Integer id);
 	
