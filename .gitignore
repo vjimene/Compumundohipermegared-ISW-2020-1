@@ -1,3 +1,6 @@
-chopinhauer\.mvn
-chopinhauer\.settings
-chopinhauer\.sts4-cache
+chopinhauer-api/.mvn
+chopinhauer-api/.settings
+chopinhauer-api/.sts4-cache
+chopinhauer-react/node_modules
+chopinhauer-react/.pnp
+chopinhauer-react/.pnp.js
