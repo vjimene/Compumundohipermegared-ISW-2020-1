@@ -34,7 +34,7 @@ class TeamsList extends Component {
       <Container fluid className="main-content-container px-4">
         {/* Page Header */}
         <Row noGutters className="page-header py-4">
-          <PageTitle sm="4" title="Champions League Teams" subtitle="Ayudantía" className="text-sm-left" />
+          <PageTitle sm="4" title="Muestra de todos los Equipos" subtitle="Equipos de Personal de Servicio" className="text-sm-left" />
         </Row>
 
         <Row>

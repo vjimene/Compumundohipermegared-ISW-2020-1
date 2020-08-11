@@ -194,22 +194,15 @@ class BlogPosts extends React.Component {
           {PostsListOne.map((post, idx) => (
             <Col lg="3" md="6" sm="12" className="mb-4" key={idx}>
               <Card small className="card-post card-post--1">
-                <div
-                  className="card-post__image"
-                  style={{ backgroundImage: `url(${post.backgroundImage})` }}
-                >
-                  <Badge
-                    pill
-                    className={`card-post__category bg-${post.categoryTheme}`}
-                  >
-                    {post.category}
+                <div className="card-post__image" style={{ backgroundImage: `url(${post.backgroundImage})` }}  >
+                  <Badge pill className={`card-post__category bg-${post.categoryTheme}`} >
+                      {post.category}
                   </Badge>
                   <div className="card-post__author d-flex">
                     <a
                       href="#"
                       className="card-post__author-avatar card-post__author-avatar--small"
-                      style={{ backgroundImage: `url('${post.authorAvatar}')` }}
-                    >
+                      style={{ backgroundImage: `url('${post.authorAvatar}')` }} >
                       Written by {post.author}
                     </a>
                   </div>

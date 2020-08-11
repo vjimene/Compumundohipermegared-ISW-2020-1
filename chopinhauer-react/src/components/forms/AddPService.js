@@ -13,9 +13,7 @@ import {
 
 
 
-const AddPService = ({
-  onSubmit
-  }) => {
+const AddPService = ({onSubmit }) => {
     const [nombres, setNombres] = useState('');
     const [apellidos, setApellidos] = useState('');
     const [rut, setRut] = useState('');
@@ -76,7 +74,7 @@ const AddPService = ({
                     placeholder="juan@gmail.com" />
                 </FormGroup>
                 <FormGroup>
-                  <label>Profesión</label>
+                  <label>Telefono</label>
                   <FormInput
                     value={telefono}
                     onChange={(event) => setTelefono(event.target.value)}
@@ -89,14 +87,13 @@ const AddPService = ({
                 theme="primary"
                 className="mb-2 mr-1"
                 onClick={(event) => onSubmit({
-                  'nombre': nombre,
-                  'apellido': apellido,
-                  'rut': rut,
+                  'nombres': nombres,
+                  'apellidos': apellidos,
+                  'run': rut,
                   'profesion':profesion,
-                  'correo':correo,
+                  'email':correo,
                   'telefono':telefono
                 })}
-                // onClick={onSubmit}
                 >
                   Agregar
                 </Button>

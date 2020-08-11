@@ -31,25 +31,25 @@ import proyecto.Repositorio.PServicioRepositorio;
 
 @RestController
 @CrossOrigin(origins = "*", methods= {RequestMethod.GET,RequestMethod.POST,RequestMethod.PUT})
-@RequestMapping("/pservice") 
+@RequestMapping("/pservice")
 public class PServicioControlador {
 
 	@Autowired
 	PServicioRepositorio repo;
-	
+
 	@GetMapping("/all")
 	public ResponseEntity<Object> getAllPServicio() {
 		Iterable<PServicio> allPServicio = repo.findAll();
-		
-		List<PServicio> lista = new ArrayList<PServicio>(); 
+
+		List<PServicio> lista = new ArrayList<PServicio>();
 		allPServicio.iterator().forEachRemaining(lista::add);
 		if(lista.isEmpty()) {
 			//return Collections.emptyList();
 			return new ResponseEntity<Object>(
-					new EmptyJsonResponse(), 
+					new EmptyJsonResponse(),
 					new HttpHeaders(),
 					HttpStatus.NOT_FOUND);
-			
+
 		} else {
 			return new ResponseEntity<Object>(
 					lista,
@@ -58,10 +58,10 @@ public class PServicioControlador {
 					);
 			//return lista;
 		}
-		
+
 	}
-	
-	@GetMapping("/byid") 
+
+	@GetMapping("/byid")
 	public ResponseEntity<Object> getByIdPServicio(Integer id) throws Exception {
 		Optional<PServicio> pserviciofound = repo.findById(id);
 		if (!pserviciofound.isPresent()) {
@@ -78,16 +78,16 @@ public class PServicioControlador {
 					HttpStatus.OK
 					);
 		}
-		
+
 	}
-	
+
 	//funca mas o menos lindo
 	@ResponseStatus(HttpStatus.OK)
 	@PostMapping("/update")
 	public ResponseEntity<Object> updatePServicio(@RequestBody PServicio upPServicio) throws Exception {
-		
+
 		Optional<PServicio> newPServicio =  repo.findById(upPServicio.getId());
-		
+
 		if (!newPServicio.isPresent()) {
 			//throw new Exception("Personal no encontrado");
 			return new ResponseEntity<Object>(
@@ -96,7 +96,7 @@ public class PServicioControlador {
 					HttpStatus.NOT_FOUND
 					);
 		}else {
-			
+
 			PServicio PServiciofound = newPServicio.get();
 			PServiciofound.setNombres(upPServicio.getNombres());
 			PServiciofound.setApellidos(upPServicio.getApellidos() );
@@ -104,11 +104,11 @@ public class PServicioControlador {
 			PServiciofound.setProfesion(upPServicio.getProfesion());
 			PServiciofound.setTelefono(upPServicio.getTelefono());
 			PServiciofound.setEmail(upPServicio.getEmail());
-			
+
 			//if(checkUserValid(user)) {
 			//	user = repositorio.save(user);
 			//}
-			
+
 			repo.save(PServiciofound);
 			return new ResponseEntity<Object>(
 					PServiciofound,
@@ -117,10 +117,10 @@ public class PServicioControlador {
 					);
 		}
 	}
-	
+
 	//funca mas o menos lindo
 	@ResponseStatus(HttpStatus.OK)
-	@PostMapping(path="/add") // Map ONLY POST Requests
+	@PostMapping(path="/add", consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE}) // Map ONLY POST Requests
 	  public ResponseEntity<Object> addPServicio(@RequestBody PServicio newPServicio) {
 		/*
 		PServicio newPServicio = new PServicio();
@@ -139,12 +139,12 @@ public class PServicioControlador {
 				HttpStatus.OK
 				);
 	  }
-	
-	
+
+
 	@PostMapping("/delete")
 	public ResponseEntity<Object> deletePServicio(Integer id) throws Exception {
 		Optional<PServicio> newPServicio =  repo.findById(id);
-		
+
 		if (!newPServicio.isPresent()) {
 			//throw new Exception("Personal no encontrado");
 			return new ResponseEntity<Object>(
@@ -154,7 +154,7 @@ public class PServicioControlador {
 					);
 		} else {
 			PServicio pservicioDeleted = newPServicio.get();
-			
+
 			repo.deleteById(id);
 			return new ResponseEntity<Object>(
 		    		"Personal de servicio llamad@ "+ pservicioDeleted.getNombres() +"fué eliminado ",
@@ -163,10 +163,10 @@ public class PServicioControlador {
 					);
 		}
 	}
-	
-	
+
+
 
 	@JsonSerialize
 	public class EmptyJsonResponse { }
-	
+
 }

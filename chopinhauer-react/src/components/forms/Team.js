@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import PropTypes from "prop-types"; 
+import PropTypes from "prop-types";
 import {
   Row,
   Col,
@@ -11,6 +11,7 @@ import {
   Button,
 } from "shards-react";
 
+import DenseTable from "../add-new-team/SearchPServiceForTeam"
 
 
 const Team = ({
@@ -39,13 +40,14 @@ const Team = ({
                   <label>Team Country</label>
                   <FormInput
                     value={country}
-                    onChange={(event) => setCountry(event.target.value)}                    
+                    onChange={(event) => setCountry(event.target.value)}
                     size="lg"
                     className="mb-3"
                     placeholder="Chile" />
                 </FormGroup>
               </Form>
-              <Button 
+              <DenseTable/>
+              <Button
                 theme="primary"
                 className="mb-2 mr-1"
                 onClick={(event) => onSubmit({ 'nombre': name, 'pais': country })}

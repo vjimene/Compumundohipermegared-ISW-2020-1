@@ -1,9 +1,9 @@
 import { api } from '../helpers';
 
-const basePath = 'v1/equipo';
+const basePath = 'team';
 
 function getAll() {
-    return api.get(`${basePath}/equipos`);
+    return api.get(`${basePath}/all`);
 }
 
 function show(teamId) {

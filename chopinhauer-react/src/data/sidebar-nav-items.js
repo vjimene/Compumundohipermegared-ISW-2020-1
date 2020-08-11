@@ -37,23 +37,27 @@ export default function() {
     //   to: "/errors",
     // },
     {
-      title: 'Teams',
+      subtitle: 'Equipos',
+      title: 'Todos',
       htmlBefore: '<i class="material-icons">view_module</i>',
       to: '/teams-list'
     },
     {
-      title: 'Add Team',
+      subtitle: 'Equipos',
+      title: 'Agregar',
       htmlBefore: '<i class="material-icons">note_add</i>',
       to: '/teams-form'
     },
     {
-      title: 'Show All Personal Services',
-      htmlBefore: '<i class="material-icons">pservice_all</i>',
+      subtitle: 'Personal de Servicio',
+      title: 'Todos',
+      htmlBefore: '<i class="material-icons">view_module</i>',
       to: '/all-pservice'
     },
     {
-      title: 'Add Personal Services',
-      htmlBefore: '<i class="material-icons">pservice_add</i>',
+      subtitle: 'Personal de Servicio',
+      title: 'Agregar',
+      htmlBefore: '<i class="material-icons">note_add</i>',
       to: '/add-new-pservice'
     },
 
