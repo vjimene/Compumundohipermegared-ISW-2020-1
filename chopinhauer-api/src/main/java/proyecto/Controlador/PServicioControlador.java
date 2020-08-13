@@ -9,6 +9,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -37,7 +38,8 @@ public class PServicioControlador {
 	@Autowired
 	PServicioRepositorio repo;
 
-	@GetMapping("/all")
+	@ResponseStatus(HttpStatus.OK)
+	@GetMapping(path="/all" , produces= MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Object> getAllPServicio() {
 		Iterable<PServicio> allPServicio = repo.findAll();
 
@@ -46,9 +48,9 @@ public class PServicioControlador {
 		if(lista.isEmpty()) {
 			//return Collections.emptyList();
 			return new ResponseEntity<Object>(
-					new EmptyJsonResponse(),
+					lista,
 					new HttpHeaders(),
-					HttpStatus.NOT_FOUND);
+					HttpStatus.OK);
 
 		} else {
 			return new ResponseEntity<Object>(
@@ -61,7 +63,8 @@ public class PServicioControlador {
 
 	}
 
-	@GetMapping("/byid")
+	@ResponseStatus(HttpStatus.OK)
+	@GetMapping(path="/byid", produces= MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Object> getByIdPServicio(Integer id) throws Exception {
 		Optional<PServicio> pserviciofound = repo.findById(id);
 		if (!pserviciofound.isPresent()) {
@@ -69,7 +72,7 @@ public class PServicioControlador {
 			return new ResponseEntity<Object>(
 					"Personal no encontrado",
 					new HttpHeaders(),
-					HttpStatus.NOT_FOUND
+					HttpStatus.OK
 					);
 		}else {
 			return new ResponseEntity<Object>(
@@ -83,7 +86,7 @@ public class PServicioControlador {
 
 	//funca mas o menos lindo
 	@ResponseStatus(HttpStatus.OK)
-	@PostMapping("/update")
+	@PostMapping(path="/update" ,consumes = MediaType.APPLICATION_JSON_VALUE, produces= MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Object> updatePServicio(@RequestBody PServicio upPServicio) throws Exception {
 
 		Optional<PServicio> newPServicio =  repo.findById(upPServicio.getId());
@@ -93,17 +96,20 @@ public class PServicioControlador {
 			return new ResponseEntity<Object>(
 					"Personal no encontrado",
 					new HttpHeaders(),
-					HttpStatus.NOT_FOUND
+					HttpStatus.OK
 					);
 		}else {
 
 			PServicio PServiciofound = newPServicio.get();
+
+			
 			PServiciofound.setNombres(upPServicio.getNombres());
 			PServiciofound.setApellidos(upPServicio.getApellidos() );
 			PServiciofound.setRun(upPServicio.getRun());
 			PServiciofound.setProfesion(upPServicio.getProfesion());
 			PServiciofound.setTelefono(upPServicio.getTelefono());
 			PServiciofound.setEmail(upPServicio.getEmail());
+
 
 			//if(checkUserValid(user)) {
 			//	user = repositorio.save(user);
@@ -120,7 +126,7 @@ public class PServicioControlador {
 
 	//funca mas o menos lindo
 	@ResponseStatus(HttpStatus.OK)
-	@PostMapping(path="/add", consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE}) // Map ONLY POST Requests
+	@PostMapping(path="/add", consumes = MediaType.APPLICATION_JSON_VALUE, produces= MediaType.APPLICATION_JSON_VALUE) // Map ONLY POST Requests
 	  public ResponseEntity<Object> addPServicio(@RequestBody PServicio newPServicio) {
 		/*
 		PServicio newPServicio = new PServicio();
@@ -132,17 +138,18 @@ public class PServicioControlador {
 		newPServicio.setEmail(newPServicio.getEmail());
 		*/
 		// validacion de datos
+
 	    repo.save(newPServicio);
 	    return new ResponseEntity<Object>(
 	    		newPServicio,
-				new HttpHeaders(),
-				HttpStatus.OK
+					new HttpHeaders(),
+					HttpStatus.OK
 				);
 	  }
 
-
-	@PostMapping("/delete")
-	public ResponseEntity<Object> deletePServicio(Integer id) throws Exception {
+	@ResponseStatus(HttpStatus.OK)
+	@PostMapping("/delete" )
+	public ResponseEntity<Object> deletePServicio(@RequestParam(name="id") Integer id) throws Exception {
 		Optional<PServicio> newPServicio =  repo.findById(id);
 
 		if (!newPServicio.isPresent()) {
@@ -150,14 +157,14 @@ public class PServicioControlador {
 			return new ResponseEntity<Object>(
 					"Personal no encontrado",
 					new HttpHeaders(),
-					HttpStatus.NOT_FOUND
+					HttpStatus.OK
 					);
 		} else {
 			PServicio pservicioDeleted = newPServicio.get();
 
 			repo.deleteById(id);
 			return new ResponseEntity<Object>(
-		    		"Personal de servicio llamad@ "+ pservicioDeleted.getNombres() +"fué eliminado ",
+		    		"Personal de servicio llamad@ "+ pservicioDeleted.getNombres() +" fué eliminado ",
 					new HttpHeaders(),
 					HttpStatus.OK
 					);

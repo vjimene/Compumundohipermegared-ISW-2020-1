@@ -15,14 +15,14 @@ import BlogPosts from "./views/BlogPosts";
 import TeamsList from './views/TeamsList';
 import TeamForm from './views/TeamForm';
 import AddNewPService from './views/AddNewPService';
-import AllPService from './views/ShowAllPService'
+import AllPService from './views/ShowAllPService';
 
 export default [
   {
     path: "/",
     exact: true,
     layout: DefaultLayout,
-    component: () => <Redirect to="/blog-overview" />
+    component: () => <Redirect to="/pservice/add-new-pservice" />
   },
   {
     path: "/blog-overview",
@@ -40,12 +40,12 @@ export default [
     component: AddNewPost
   },
   {
-    path: "/all-pservice",
+    path: "/pservice/all-pservice",
     layout: DefaultLayout,
     component: AllPService
   },
   {
-    path: "/add-new-pservice",
+    path: "/pservice/add-new-pservice",
     layout: DefaultLayout,
     component: AddNewPService
   },
@@ -70,13 +70,15 @@ export default [
     component: BlogPosts
   },
   {
-    path: "/teams-list",
+    path: "/team/teams-list",
     layout: DefaultLayout,
     component: TeamsList
   },
   {
-    path: "/teams-form",
+    path: "/team/teams-form",
     layout: DefaultLayout,
     component: TeamForm
   },
+
+
 ];

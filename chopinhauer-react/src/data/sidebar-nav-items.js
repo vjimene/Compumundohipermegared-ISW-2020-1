@@ -1,11 +1,11 @@
 export default function() {
   return [
-    {
-      title: "Blog Dashboard",
-      to: "/blog-overview",
-      htmlBefore: '<i class="material-icons">edit</i>',
-      htmlAfter: ""
-    },
+    //{
+    //  title: "Blog Dashboard",
+    //  to: "/blog-overview",
+    //  htmlBefore: '<i class="material-icons">edit</i>',
+  //    htmlAfter: ""
+  //  },
     // {
     //   title: "Blog Posts",
     //   htmlBefore: '<i class="material-icons">vertical_split</i>',
@@ -37,29 +37,40 @@ export default function() {
     //   to: "/errors",
     // },
     {
-      subtitle: 'Equipos',
-      title: 'Todos',
+      title: 'Solicitudes y Reservas',
+      subtitle:"",
       htmlBefore: '<i class="material-icons">view_module</i>',
-      to: '/teams-list'
+      to: 'https://solrec-app.herokuapp.com/'
     },
     {
-      subtitle: 'Equipos',
-      title: 'Agregar',
-      htmlBefore: '<i class="material-icons">note_add</i>',
-      to: '/teams-form'
-    },
-    {
-      subtitle: 'Personal de Servicio',
-      title: 'Todos',
+      title: 'Quimioterapia',
+      subtitle:"",
       htmlBefore: '<i class="material-icons">view_module</i>',
-      to: '/all-pservice'
+      to: 'https://opelcorsa-app.herokuapp.com/'
     },
     {
-      subtitle: 'Personal de Servicio',
-      title: 'Agregar',
-      htmlBefore: '<i class="material-icons">note_add</i>',
-      to: '/add-new-pservice'
+      title: 'Pabellones',
+      subtitle:"",
+      htmlBefore: '<i class="material-icons">view_module</i>',
+      to: 'https://iif-front.herokuapp.com/Pabellones'
     },
-
+    {
+      title: 'Sala de Recuperación',
+      subtitle:"",
+      htmlBefore: '<i class="material-icons">view_module</i>',
+      to: 'https://iif-front.herokuapp.com/recuperacion'
+    },
+    {
+      title: 'Equipamientos',
+      subtitle:"",
+      htmlBefore: '<i class="material-icons">view_module</i>',
+      to: 'https://sogireact.herokuapp.com/listar-equipamientos '
+    },
+    {
+      title: 'Personal y Equipos 👩‍⚕️',
+      subtitle:"",
+      htmlBefore: '<i class="material-icons">view_module</i>',
+      to: '/pservice/all-pservice'
+    },
   ];
 }

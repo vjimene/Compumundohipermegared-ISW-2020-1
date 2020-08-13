@@ -8,18 +8,18 @@ import {
   Card,
   CardHeader,
   CardBody,
-  CardFooter,
   Badge,
   Button,
   ButtonGroup,
-  Modal,
-  ModalBody,
-  ModalHeader
+  ListGroupItem,
+  ListGroup
 } from "shards-react";
 
 import addpserviceService from '../services/pservices.service';
 import PageTitle from "../components/common/PageTitle";
 import EditPService from "../components/edit-pservice/EditPService";
+import Test from "../components/forms/Test";
+
 
 
 class AllPService extends Component {
@@ -29,83 +29,110 @@ class AllPService extends Component {
     this.state = {
       // First list of posts.
       selected: {},
+        openPService: false,
         open: false,
         PServiceList: [],
-
-        /*
-        PServiceList: [
-          { nombre: "Juan",
-            apellido: "Perez",
-            rut: "12312313",
-            profesion: "Enfermero",
-            telefono: "123123",
-          },
-          { nombre: "Alondra",
-            apellido: "Hernandez",
-            rut: "12375313",
-            profesion: "Medico Cirujano",
-            telefono: "2580902",
-            },
-          { nombre: "Hernestina",
-            apellido: "Ediberta",
-            rut: "09809805",
-            profesion: "Neuro Cirujano",
-            telefono: "686734859",
-            },
-      ]
-      */
     };
     this.deleteHandler = this.deleteHandler.bind(this);
     this.handleChange = this.handleChange.bind(this);
+    this.togglePService = this.togglePService.bind(this);
     this.toggle = this.toggle.bind(this);
     this.updateHandler = this.updateHandler.bind(this);
   }
-  toggle(post) {
+  togglePService(post) {
     this.setState({
       ...this.state,
       selected: post,
-      open: !this.state.open
+      openPService: !this.state.openPService
     });
-
   }
 
+  toggle(data) {
+    if(data === {}) {
+      this.setState({
+        ...this.state,
+        open: !this.state.open
+      });
+    } else {
+      this.setState({
+        ...this.state,
+        open: !this.state.open,
+        title: data.title,
+        text: data.text,
+      });
+    }
+    this.handleChange();
+  }
   handleChange() {
     addpserviceService.getAll()
     .then((response) => {
         this.setState({
           ...this.state,
+          openPService: false,
           PServiceList:  response.status === 200 ? response.data : [],
         })
-    })
+    }).catch((error) => {
+        this.toggle({
+        text: "No se puede mostrar el Personal de Servicio!! ✋",
+        title: "No se pudo 😁" });
+    });
     }
 
   deleteHandler(id){
     addpserviceService.deletePServicio(id).then((response) =>{
-      console.log("ELIMINADO " + response.data);
-      this.handleChange();
-    });
+      this.toggle({
+        text: "Personal de Servicio borrado correctamente!! 😘",
+        title: "Si se pudo!! " });
+    }).catch((error) => {
+      this.toggle({
+      text: "No se pudo eliminar el  Personal de Servicio!! ✋",
+      title: "No se pudo 😁" });
+  });
   }
 
   updateHandler(data){
-    console.log(data);
-    addpserviceService.updatePServicio(data).then((response) =>{
-      console.log("ACTUALIZADO " + response.data);
-      this.handleChange();
+    console.log({strng:"UpdateHandlerTeam",data:  data})
+    addpserviceService.updatePServicio(data)
+    .then((response) => {
+      this.toggle({
+      text: "Personal de Servicio editado correctamente!! 😘",
+      title: "Si se pudo!!😍 " });
+
+  })
+    .catch((error) => {
+      this.toggle({
+      text: "No fué posible actualizar el Personal de Servicio!! ✋",
+      title: "No se pudo 😁" });
+  });
+}
+
+  handlerOpenDialog(data) {
+    this.setState({
+      ...this.state,
+      open: data
     });
+    console.log({text:"handler", open:this.state.open});
   }
+
   componentDidMount(){
     this.handleChange();
   }
 
   render() {
     const {
+      openPService,
       open,
       PServiceList,
+      selected,
     } = this.state;
     return (
       <Container fluid className="main-content-container px-4">
-        <EditPService open={open} thisToggle={this.toggle.bind(this,{})} post={this.state.selected} onSubmit={this.updateHandler}/>
-        {/* Page Header */}
+        <EditPService open={openPService} thisToggle={this.togglePService.bind(this,{})} post={selected} onSubmit={this.updateHandler.bind(this)}/>
+        <Test openOut={this.state.open} toggle={this.toggle.bind(this,{})} handler={this.handlerOpenDialog.bind(this)}
+          text={this.state.text}
+          title={this.state.title}
+        />
+      {/* Page Header */}
         <Row noGutters className="page-header py-4">
           <PageTitle sm="4" title="Todo el Personal de Servicio" subtitle="Personal de Servicio" className="text-sm-left" />
         </Row>
@@ -121,27 +148,29 @@ class AllPService extends Component {
                   </Badge>
                 </CardHeader>
                 <CardBody>
-                  <p className="card-text d-inline-block mb-3">{post.nombres}  {post.apellidos}</p>
-                  <span className="text-muted">{post.email}</span>
-                  <p></p>
+                  <ListGroup small={true} flush={false}  key={post.id} align="center">
+                    <ListGroupItem >
+                      <Row>
+                        <Col>
+                          {post.nombres} {post.apellidos}
+                        </Col>
+                      </Row>
+                    </ListGroupItem>
+                         <ButtonGroup>
+                            <Button
+                              onClick={this.deleteHandler.bind(this, post.id)}>
+                              Borrar
+                            </Button>
+                            <p></p>
+                            <Button theme="secondary"
+                              onClick={this.togglePService.bind(this,post)}>
+                              Editar
+                            </Button>
+                        </ButtonGroup>
+                    </ListGroup>
+
+
                 </CardBody>
-                <CardFooter>
-                  <div className="card-post__author d-flex">
-                     <ButtonGroup>
-                        <Button className="btn btn-warning btn-circle"
-                          onClick={this.deleteHandler.bind(this, post.id)}>
-                          <i className="fa fa-times"></i>
-                        </Button>
-                        <p></p>
-                        <Button className="btn btn-success btn-circle"
-                          onClick={this.toggle.bind(this,post)}>
-
-                          <i className="fa fa-edit"></i>
-                        </Button>
-
-                    </ButtonGroup>
-                  </div>
-                </CardFooter>
 
               </Card>
             </Col>

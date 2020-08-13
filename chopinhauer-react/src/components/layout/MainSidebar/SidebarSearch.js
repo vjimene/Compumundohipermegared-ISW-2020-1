@@ -16,7 +16,7 @@ export default () => (
         </InputGroupText>
         <FormInput
           className="navbar-search"
-          placeholder="Search for something..."
+          placeholder="Busca algo..."
           aria-label="Search"
         />
       </InputGroupAddon>

@@ -20,18 +20,19 @@ public class PServicio implements Serializable {
     private String profesion;
     private Integer telefono;
     private String email;
-    
+
+
     public Integer getId() {
         return id;
     }
     public String getNombres() {
         return nombres;
     }
-    
+
     public String getApellidos() {
 		return apellidos;
 	}
-	
+
 	public Integer getRun() {
         return run;
     }
@@ -44,8 +45,8 @@ public class PServicio implements Serializable {
     public String getEmail() {
         return email;
     }
-    
-    
+
+
     public void setId(Integer id) {
         this.id = id;
     }

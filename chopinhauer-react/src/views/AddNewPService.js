@@ -2,8 +2,6 @@ import React from "react";
 import { Container, Row, Col } from "shards-react";
 
 import PageTitle from "../components/common/PageTitle";
-import SidebarActions from "../components/add-new-post/SidebarActions";
-import SidebarCategories from "../components/add-new-post/SidebarCategories";
 import PServiceForm from "../components/add-new-pservice/PServiceForm";
 
 const AddNewPService = () => (
@@ -19,11 +17,13 @@ const AddNewPService = () => (
         <PServiceForm/>
       </Col>
 
-      {/* Sidebar Widgets */}
-      <Col lg="3" md="12">
-        <SidebarActions />
-        <SidebarCategories />
-      </Col>
+      {/*
+        <Col lg="3" md="12">
+          <SidebarActions />
+          <SidebarCategories />
+        </Col>
+         */}
+
     </Row>
   </Container>
 );
